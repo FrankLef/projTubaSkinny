@@ -40,3 +40,12 @@ ggp_theme_valid_clean <- function(theme = ggthemes::theme_tufte(), legend_pos) {
           legend.position = legend_pos,
           legend.background = element_rect(fill = "transparent"))
 }
+
+ggp_theme_pct_freq <- function(theme = ggthemes::theme_tufte()) {
+  theme +
+    theme(title = element_text(color ="midnightblue"),
+          axis.title = element_text(color ="midnightblue"),
+          legend.position = "none",
+          legend.background = element_rect(fill = "transparent"))
+}
+
