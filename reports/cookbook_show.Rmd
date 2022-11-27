@@ -1,0 +1,470 @@
+---
+title: "Cookbook Project"
+Author: "François Lefebvre"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme:
+      version: 4
+      bootswatch: cerulean
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(plotly)
+library(htmltools)
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+# source: https://pkgs.rstudio.com/flexdashboard/articles/using.html
+# themes available
+c("cerulean", "cosmo", "cyborg", "darkly", "flatly", "journal", "litera", "lumen", "lux", "materia", "minty", "pulse", "sandstone", "simplex", "sketchy", "slate", "solar", "spacelab", "superhero", "united", "yeti")
+# favorites
+c("journal", "superhero", "united", "darkly", "yeti", "materia", "cerulean", "sandstone", "slate", "simplex", "cosmo")
+```
+
+
+
+Comments
+=======================================================================
+
+Row {.tabset}
+-----------------------------------------------------------------------
+
+### <font size="5" color = "darkblue"><em>Decision Support</em></font>
+
+<font size="7" color = "goldenrod">
+
+* Trends by business groups
+* Profit: Added value vs raw pricing
+* Sales Analysis <u>before</u> cost analysis
+
+</font>
+
+
+### <font size="5" color = "darkblue"><em>Transactions</em></font>
+
+<font size="7" color = "steelblue">
+
+* Pattern of empty transactions
+  - Fit the hurdle model
+  - Identify the loss leaders, i.e. predictors of losses
+* Pattern of sales returns and other negative transactions
+* Estimate the cost per transaction document
+  - Compute the ideal volume discount/premium
+
+</font>
+
+
+### <font size="5" color = "darkblue"><em>Business Groups</em></font>
+
+<font size="7" color = "steelblue">
+
+* Identify the business groups of clients and products
+  - Explain at least 70% of variance
+  - Maximum 3 business groups usually enough
+  - Evaluate feasibility of using the groups in the system
+
+
+</font>
+
+### <font size="5" color = "darkblue"><em>Pricing</em></font>
+
+<font size="7" color = "steelblue">
+
+* **Added value vs raw pricing **
+* Denominator: Units vs amounts
+
+</font>
+
+
+</font>
+
+### <font size="5" color = "darkblue"><em>Definition</em></font>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+$$
+\begin{align*}
+\underbrace{\frac{Profit}{Capital}}_{\text{ROI}} &= 
+\underbrace{\frac{Profit}{Sales}}_{\text{Profit Margin}} \times 
+\underbrace{\frac{Sales}{Capital}}_{\text{Turnover}} \\ \\ \\
+\text{also, same idea, with production data} \\ \\ \\
+\underbrace{\frac{Added\;Value}{Capital}}_{\text{ROI}} &= 
+\underbrace{\frac{Added\;Value}{Hours}}_{\text{Price}} \times 
+\underbrace{\frac{Hours}{Capital}}_{\text{Turnover}} 
+\end{align*}
+$$
+
+
+
+ROI Value
+=======================================================================
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**ROI Map - Added Value**</font>
+
+```{r}
+# a_file <- here::here("reports", "data", "groups_roi_addval.png")
+# knitr::include_graphics(path = a_file)
+a_file <- here::here("reports", "data", "ply_groups_roi_addval.qs")
+# infoRDS(a_file)
+stopifnot(file.exists(a_file))
+qs::qread(file = a_file)
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+```{r}
+a_file <- here::here("reports", "data", "gt_groups_roi.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+ROI Profit
+=======================================================================
+
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**ROI Map - Profit**</font>
+
+```{r}
+# a_file <- here::here("reports", "data", "groups_roi_profit.png")
+# knitr::include_graphics(path = a_file)
+a_file <- here::here("reports", "data", "ply_groups_roi_profit.qs")
+# infoRDS(a_file)
+stopifnot(file.exists(a_file))
+qs::qread(file = a_file)
+```
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+```{r}
+a_file <- here::here("reports", "data", "gt_groups_roi.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+Price of Material
+=======================================================================
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+### <font color = "blueviolet">**Price per Dollar of Material**</font>
+
+
+```{r out.width = '90%'}
+a_file <- here::here("reports", "data", "ggp_sales2mat_box.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_groups_ratios.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+Price of Hour 
+=======================================================================
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Price per Hour**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_addval2hrs_box.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_groups_ratios.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+Price of Material Dist
+=======================================================================
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+### <font color = "blueviolet">**Price per material distribution**</font>
+
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_dist_nice_mat.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+### <font color = "blueviolet">**Table of Variable Costs**</font>
+
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_intrvl.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+Price of Hours Dist
+=======================================================================
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Price per hour distribution**</font>
+
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_dist_nice_hrs.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Table of Variable Costs**</font>
+
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_intrvl.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+Non Compliances Tree
+=======================================================================
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Non-Compliance Tree**</font>
+
+
+```{r out.width = '90%'}
+a_file <- here::here("reports", "data", "ggp_noncompl_tree.png")
+knitr::include_graphics(path = a_file)
+```
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### <font color = "blueviolet">**Table of Non Compliances**</font>
+
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_noncompl.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+Non Compliances
+=======================================================================
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Non-Compliance Histogram**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_noncompl_hist.png")
+knitr::include_graphics(path = a_file)
+```
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+### <font color = "blueviolet">**Table of Non Compliances**</font>
+
+
+```{r}
+# get the gt table
+a_file <- here::here("reports", "data", "gt_noncompl.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+Clean Value
+=======================================================================
+
+
+Column {data-width=1000}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Sales vs Material**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_valid_clean_addval.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+Clean Price
+=======================================================================
+
+
+Column {data-width=1000}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Added Value vs Hours**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_valid_clean_price.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+
+Valid 3D
+=======================================================================
+
+
+Column {data-width=700}
+-----------------------------------------------------------------------
+
+
+
+### <font color = "blueviolet">**Raw Data 3D**</font>
+
+
+```{r}
+a_file <- here::here("reports", "data", "ply_valid_3D.qs")
+# infoRDS(a_file)
+stopifnot(file.exists(a_file))
+qs::qread(file = a_file)
+```
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+### <font color = "blueviolet">**Data Summary**</font>
+
+
+```{r}
+a_file <- here::here("reports", "data", "gt_groups_amt.html")
+stopifnot(file.exists(a_file))
+htmltools::includeHTML(path = a_file)
+```
+
+
+
+
+
+Valid 2D
+=======================================================================
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Sales vs Material**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_valid_addval.png")
+knitr::include_graphics(path = a_file)
+```
+
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+
+### <font color = "blueviolet">**Added Value vs Hrs**</font>
+
+```{r}
+a_file <- here::here("reports", "data", "ggp_valid_price.png")
+knitr::include_graphics(path = a_file)
+```
+
+
