@@ -20,7 +20,7 @@ tmp$ggp_valid_sales <- tmp$data |>
                   titles = list(title = tmp$title, subtitle = tmp$subtitle,
                                 x = "Material", y = "Sales")) +
   ggp_theme_valid_clean(ggthemes::theme_tufte(), legend_pos = c(0.2, 0.8))
-tmp$ggp_valid_sales
+# tmp$ggp_valid_sales
 
 
 tmp$title <- "Added Value vs Hours (Price per hour)"
@@ -28,10 +28,28 @@ tmp$ggp_valid_price <- tmp$data |>
   filter(hrs_lga >= 0, addval_lga >= log10(50)) |>
   ggp_valid_clean(x_var ="hrs_lga", y_var = "addval_lga", color_var ="group",
                   colrs = list(grp1 = tmp$colrs_grp1),
-                  list(title = tmp$title, subtitle = tmp$subtitle,
+                  titles = list(title = tmp$title, subtitle = tmp$subtitle,
                        x = "Hours", y = "Added Value")) +
   ggp_theme_valid_clean(ggthemes::theme_tufte(), legend_pos = c(0.8, 0.2))
-tmp$ggp_valid_price
+# tmp$ggp_valid_price
+
+
+# sales histograms --------------------------------------------------------
+
+stop("HERE")
+names(tmp$data)
+
+tmp$ggp_profit2sales_df <- tmp$data|>
+  ggp_feq_bar_df(x_var = "profit2sales_cut", y_var = "sales", 
+                 fill_var = "group")
+tmp$ggp_profit2sales_df
+
+tmp$ggp_profit2sales<- tmp$ggp_profit2sales_df |>
+  ggp_freq_bar(x_var = "profit2sales_cut", y_var = "sales", fill_var = "group",
+               colrs = list(grp = tmp$colrs_grp1),
+               titles = list(title = "Profit Break-down by Group",
+                             x = "Profit \U00F7 Sales", y = "Sales"))
+tmp$ggp_profit2sales
 
 
 

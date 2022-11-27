@@ -1,5 +1,5 @@
 # setup -------------------------------------------------------------------
-stop(paste("MANUAL STOP", basename(whereami::thisfile())), call. = FALSE)
+# stop(paste("MANUAL STOP", basename(whereami::thisfile())), call. = FALSE)
 tmp <- new.env()
 
 # prune the raw data
@@ -24,7 +24,17 @@ assertthat::assert_that(nrow(tmp$data) + nrow(tmp$data_noncompl) ==
 # tmp$colrs_grp1 <- get_info(projects, name = "colrs_client_grp1")
 
 
+# data cuts ---------------------------------------------------------------
 
+# names(tmp$data)
+# tmp$data |> skimr::skim(addval2cap, addval2hrs, hrs2cap, sales2addval,
+#                         profit2cap, profit2sales, sales2cap, sales2mat)
+tmp$data <- tmp$data |>
+  mutate(profit2sales_cut = 
+           santoku::chop_equally(x = profit2sales, groups = 10), 
+         addval2hrs_cut = 
+           santoku::chop_equally(addval2hrs, groups = 10))
+# glimpse(tmp$data)
 
 # data by group -----------------------------------------------------------
 
