@@ -1,7 +1,10 @@
-summ_corr <- function(data, corr_digits = 3, stats_digits = 2) {
+summ_corr <- function(data, is_rearr = FALSE, corr_digits = 3, stats_digits = 2) {
   corr_df <- data |>
-    corrr::correlate(quiet = TRUE) |>
-    corrr::rearrange() |>
+    corrr::correlate(quiet = TRUE)
+  
+  if (is_rearr) corr_df <- corrr::rearrange(corr_df)
+  
+  corr_df <- corr_df |>
     corrr::shave() |>
     mutate(across(.cols = where(is.numeric),
                   .fns = round, digits = corr_digits))

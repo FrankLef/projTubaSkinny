@@ -8,76 +8,38 @@ tmp$data <- get_data(sales)
 
 # matrix summaries --------------------------------------------------------
 
-tmp$corr_data <- tmp$data |>
-  select(sales, mat, hrs, sales_lga, mat_lga, hrs_lga)
-
-tmp$corr_summ <- tmp$corr_data |> 
-  summ_corr(corr_digits = 3, stats_digits = 3)
-tmp$corr_summ
-
-tmp$colrs <- list()
-tmp$colrs$pal <- paletteer::paletteer_c("oompaBase::jetColors", n = 16)
-tmp$colrs$pal
-tmp$colrs$pal <- unclass(tmp$colrs$pal)
-tmp$gt_corr <- tmp$corr_summ |> 
-  gt(rowname_col = "term") |>
-  tab_header(
-    title = html(paste0("<b>","Statistics Summary", "</b>"))) |>
-  # format corr
-  fmt_number(
-    columns = !matches("term"),
-    rows = !(term %in% c("mean", "sd")),
-    decimals = 2) |>
-  # format stats
-  fmt_number(
-    columns = !matches("term"),
-    rows = term %in% c("mean", "sd"),
-    decimals = 2) |>
-  sub_missing(missing_text = "-") |>
-  data_color(
-    columns = !matches("term"),
-    colors = scales::col_numeric(
-      palette = tmp$colrs$pal,
-      domain = c(-1, 1),
-      na.color = "transparent")) |>
-  suppressWarnings() |>
-  tab_style(
-    style = list(
-      cell_fill(color = "transparent"),
-      cell_text(color ="darkblue", weight ="normal", style = "italic")),
-    locations = cells_body(
-      columns = !matches("term"),
-      rows = term %in% c("mean", "sd")
-    )) |>
-  identity()
-tmp$gt_corr
-
-tmp$corr <- tmp$data |>
+tmp$corr_summ <- tmp$data |>
   select(sales_lga, mat_lga, hrs_lga) |>
-  # select(sales, mat, hrs) |>
-  as.data.frame() |>
-  cor()
-# tmp$corr
+  summ_corr(is_rearr = TRUE, corr_digits = 3, stats_digits = 3)
+# tmp$corr_summ
 
-tmp$ggp_corr <- tmp$corr|>
-  ggcorrplot::ggcorrplot(hc.order = TRUE,outline.color = "grey", type = "lower",
-                         lab = TRUE, lab_col = "violetred", lab_size = 12,
-                         digits = 2,
-                         show.legend = FALSE, show.diag = FALSE,
-                         title = "Correlations") +
-  scale_fill_continuous(type = "viridis")
-# tmp$ggp_corr
+tmp$gt_corr_summ <- tmp$corr_summ |>
+  gt_corr(row_var = "term", group_var = NULL,
+          terms = c("mean", "sd"),
+          colrs = list(pal = "oompaBase::jetColors"),
+          titles = list(title = "Statistics Summary"))
+tmp$gt_corr_summ
+
 
 
 # matrix summaries by group -----------------------------------------------
 
-tmp$stats_grp <- tmp$data |>
+tmp$corr_summ_grp <- tmp$data |>
   select(group, sales_lga, mat_lga, hrs_lga) |>
-  group_by(group)|>
-  summarize(across(.cols = everything(), .fns = list(mean = mean, sd = sd))) |>
+  group_by(group) |>
+  group_modify(.f = ~ summ_corr(., is_rearr = FALSE, 
+                                corr_digits = 3, stats_digits = 2), 
+            .keep = FALSE) |>
   identity()
-# tmp$stats_grp
+# tmp$corr_summ_grp
 
+
+tmp$gt_corr_summ_grp <- tmp$corr_summ_grp |>
+  gt_corr(row_var = "term", group_var = "group",
+          terms = c("mean", "sd"),
+          colrs = list(pal = "oompaBase::jetColors"),
+          titles = list(title = "Statistics Summary by Group"))
+tmp$gt_corr_summ_grp
 
 
 # teardown ----------------------------------------------------------------
