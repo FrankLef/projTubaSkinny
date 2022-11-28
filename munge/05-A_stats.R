@@ -8,12 +8,21 @@ tmp$data <- get_data(sales)
 
 # matrix summaries --------------------------------------------------------
 
-tmp$stats <- tmp$data |>
-  select(sales_lga, mat_lga, hrs_lga) |>
-  summarize(across(.cols = everything(), .fns = list(mean = mean, sd = sd))) |>
-  identity()
-# tmp$stats
+tmp$corr_data <- tmp$data |>
+  select(sales, mat, hrs, sales_lga, mat_lga, hrs_lga)
 
+tmp$corr_summ <- bind_rows(tmp$corr, tmp$stats)
+tmp$corr_summ
+
+
+glimpse(tmp$corr_data)
+tmp$corr_summ <- tmp$corr_data |> 
+  summ_corr()
+tmp$corr_summ
+
+tmp$gt_corr <- tmp$corr_summ|> 
+  gt(rowname_col = "term")
+tmp$gt_corr
 
 tmp$corr <- tmp$data |>
   select(sales_lga, mat_lga, hrs_lga) |>

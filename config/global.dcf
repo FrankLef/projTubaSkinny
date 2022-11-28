@@ -7,8 +7,8 @@ logging: FALSE
 load_libraries: TRUE
 libraries: eflTools, checkmate, testthat, assertthat, assertr, rlang, 
            tidyverse, tidymodels, multilevelmod, broom.mixed, validate, lubridate, scales, skimr, 
-           santoku, FactoMineR, factoextra, partykit, ggparty, gt, ggdist, distributional,
-           ggforce, ggrepel, paletteer, ggthemes, patchwork, plotly, plot3D,
+           corrr, santoku, FactoMineR, factoextra, partykit, ggparty, gt, ggdist, distributional,
+           ggrepel, paletteer, ggthemes, patchwork, plotly, plot3D,
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE
