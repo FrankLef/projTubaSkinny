@@ -39,5 +39,8 @@ gt_corr <- function(data, row_var, group_var = NULL,
       locations = cells_body(
         columns = !all_of(c(row_var, group_var)),
         rows = term %in% terms)) |>
+    tab_style(
+      style = list(cell_text(weight = "bold")),
+      locations = cells_row_groups()) |>
     identity()
 }
