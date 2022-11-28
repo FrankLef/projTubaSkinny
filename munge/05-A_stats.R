@@ -11,17 +11,37 @@ tmp$data <- get_data(sales)
 tmp$corr_data <- tmp$data |>
   select(sales, mat, hrs, sales_lga, mat_lga, hrs_lga)
 
-tmp$corr_summ <- bind_rows(tmp$corr, tmp$stats)
-tmp$corr_summ
-
-
-glimpse(tmp$corr_data)
 tmp$corr_summ <- tmp$corr_data |> 
-  summ_corr()
+  summ_corr(corr_digits = 3, stats_digits = 3)
 tmp$corr_summ
 
-tmp$gt_corr <- tmp$corr_summ|> 
-  gt(rowname_col = "term")
+tmp$gt_corr <- tmp$corr_summ |> 
+  gt(rowname_col = "term") |>
+  # format corr
+  fmt_number(
+    columns = !matches("term"),
+    rows = !(term %in% c("mean", "sd")),
+    decimals = 2) |>
+  # format stats
+  fmt_number(
+    columns = !matches("term"),
+    rows = term %in% c("mean", "sd"),
+    decimals = 2) |>
+  sub_missing(missing_text = "-") |>
+  data_color(
+    columns = !matches("term"),
+    colors = scales::col_numeric(
+      palette = c("red", "orange", "green", "blue"),
+      domain = range(-1, 1),
+      na.color = "white"
+    )) |>
+  tab_style(
+    style = cell_fill(color = "moccasin"),
+    locations = cells_body(
+      columns = !matches("term"),
+      rows = term %in% c("mean", "sd")
+    )) |>
+  identity()
 tmp$gt_corr
 
 tmp$corr <- tmp$data |>

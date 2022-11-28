@@ -1,13 +1,20 @@
-summ_corr <- function(data) {
+summ_corr <- function(data, corr_digits = 3, stats_digits = 2) {
   corr_df <- data |>
     corrr::correlate(quiet = TRUE) |>
     corrr::rearrange() |>
-    corrr::shave()
+    corrr::shave() |>
+    mutate(across(.cols = where(is.numeric),
+                  .fns = round, digits = corr_digits))
+  # remove first row which has all NAs
+  corr_df <- corr_df[-1, ]
+    
   
   stats <- list()
   stats$mean <- sapply(data, FUN = mean)
   stats$sd <- sapply(data, FUN = sd)
-  stats$df <- bind_rows(stats$mean, stats$sd)
+  stats$df <- bind_rows(stats$mean, stats$sd)|>
+    mutate(across(.cols = where(is.numeric), 
+                  .fns = round, digits = stats_digits))
   stats$df$term <- c("mean", "sd")
   stats$df <- stats$df[, names(corr_df)]
   
