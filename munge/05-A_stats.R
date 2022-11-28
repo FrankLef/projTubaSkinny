@@ -33,8 +33,8 @@ tmp$gt_corr <- tmp$corr_summ |>
     colors = scales::col_numeric(
       palette = c("red", "orange", "green", "blue"),
       domain = range(-1, 1),
-      na.color = "white"
-    )) |>
+      na.color = "transparent")) |>
+  suppressWarnings() |>
   tab_style(
     style = cell_fill(color = "moccasin"),
     locations = cells_body(
