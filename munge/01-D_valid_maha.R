@@ -35,8 +35,7 @@ tmp$maha <- as.vector(values(tmp$confront))
 tmp$maha[is.na(tmp$maha)] <- TRUE
 assertthat::assert_that(length(tmp$maha) == nrow(tmp$data),
                         is.logical(tmp$maha),
-                        sum(!tmp$maha) == 8)
-
+                        sum(!tmp$maha) == 6)
 # append prune id to original data ----------------------------------------
 
 tmp$data <- get_data(sales) |>
@@ -51,8 +50,7 @@ tmp$data <- get_data(sales) |>
 tmp$prune_nb <- tmp$data |>
   count(prune_id)
 assertthat::assert_that(
-  sum(tmp$prune_nb$n[!is.na(tmp$prune_nb$prune_id)]) == 638)
-
+  sum(tmp$prune_nb$n[!is.na(tmp$prune_nb$prune_id)]) == 636)
 # teardown ----------------------------------------------------------------
 
 

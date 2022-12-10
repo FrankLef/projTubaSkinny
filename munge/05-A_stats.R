@@ -19,7 +19,7 @@ tmp$gt_corr_summ <- tmp$corr_summ |>
           colrs = list(pal = "oompaBase::jetColors"),
           titles = list(title = "Statistics Summary")) |>
   gt::opt_stylize(style = 6, color = "blue")
-tmp$gt_corr_summ
+# tmp$gt_corr_summ
 
 
 
@@ -41,7 +41,7 @@ tmp$gt_corr_summ_grp <- tmp$corr_summ_grp |>
           colrs = list(pal = "oompaBase::jetColors"),
           titles = list(title = "Statistics Summary by Group")) |>
   gt::opt_stylize(style = 6, color = "blue")
-tmp$gt_corr_summ_grp
+# tmp$gt_corr_summ_grp
 
 
 # teardown ----------------------------------------------------------------
