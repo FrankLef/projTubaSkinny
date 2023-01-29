@@ -17,5 +17,5 @@ ggp_feq_bar_df <- function(data, x_var, y_var, fill_var) {
   data |>
     group_by(across(all_of(c(x_var, fill_var))))|>
     summarize(!!y_var := sum(.data[[y_var]])) |>
-    mutate("{{y_var}}_lga" = eflTools::log1ps(.data[[y_var]], base = 10))
+    mutate("{{y_var}}_lga" = eflTools::log1ps10(.data[[y_var]]))
 }
