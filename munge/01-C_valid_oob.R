@@ -19,12 +19,12 @@ tmp$data <- get_data(projects) |>
          period = year(date) * 100 + month(date),
          cap = const$cap_amt,
          labor = hrs * const$pay_rate) |>
-  mutate(sales_lga = eflTools::log_acctg(sales),
-         mat_lga = eflTools::log_acctg(mat),
-         addval_lga = eflTools::log_acctg(addval),
-         hrs_lga = eflTools::log_acctg(hrs),
-         cap_lga = eflTools::log_acctg(cap),
-         labor_lga = eflTools::log_acctg(labor))
+  mutate(sales_lga = eflTools::log1ps(sales, base = 10),
+         mat_lga = eflTools::log1ps(mat, base = 10),
+         addval_lga = eflTools::log1ps(addval, base = 10),
+         hrs_lga = eflTools::log1ps(hrs, base = 10),
+         cap_lga = eflTools::log1ps(cap, base = 10),
+         labor_lga = eflTools::log1ps(labor, base = 10))
 # glimpse(tmp$data)
 
 
